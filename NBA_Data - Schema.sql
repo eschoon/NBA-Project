@@ -1,21 +1,22 @@
 ﻿-- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- Link to schema: https://app.quickdatabasediagrams.com/#/d/Tgeiol
+-- Link to schema: https://app.quickdatabasediagrams.com/?state=h1on9jgxby5i&code=4%2FjwGH0syTcNBpFFTQpT0BSOxUz2-gzXch7kFq0p8H6HY_U7GTGA1vu9VIyxYbl-vy8YcoUh2O6wmxBjLg7v2zFgI&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&session_state=518875b8ba1ffcf61ac1944f07a4da18f2c0ac86..6931&prompt=consent#/d/Tgeiol
 -- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
 
 
 CREATE TABLE "Players" (
     "id" serial   NOT NULL,
     "name" VARCHAR   NOT NULL,
-    "birth_date" DATE  ,
+    "year_start" DATE   NOT NULL,
+    "year_end" DATE   NOT NULL,
     CONSTRAINT "pk_Players" PRIMARY KEY (
-        "id"
+        "name"
      )
 );
 
 CREATE TABLE "Player_data" (
-    "id" INT   NOT NULL,
-    "year_start" DATE ,
-    "year_end" DATE  ,
+    "id" serial   NOT NULL,
+    "name" VARCHAR   NOT NULL,
+    "birth_date" DATE   ,
     "college" VARCHAR   ,
     "height_feet" INT   ,
     "height_inches" INT   ,
@@ -31,7 +32,7 @@ CREATE TABLE "Positions" (
 );
 
 CREATE TABLE "Colleges" (
-    "id" serial   NOT NULL,
+    "id" serial   ,
     "college" VARCHAR   ,
     CONSTRAINT "pk_Colleges" PRIMARY KEY (
         "college"
@@ -40,7 +41,7 @@ CREATE TABLE "Colleges" (
 
 CREATE TABLE "Teams" (
     "id" serial   NOT NULL,
-    "team" VARCHAR   NOT NULL,
+    "team" VARCHAR   ,
     CONSTRAINT "pk_Teams" PRIMARY KEY (
         "team"
      )
@@ -49,40 +50,39 @@ CREATE TABLE "Teams" (
 CREATE TABLE "SeasonStats" (
     "id" SERIAL   NOT NULL,
     "Player" VARCHAR   NOT NULL,
-    "Year" INT   NOT NULL,
+    "Year" DATE   NOT NULL,
     "Team" VARCHAR   NOT NULL,
     "Age" INT   NOT NULL,
     "Position" VARCHAR   NOT NULL,
-    "Tm" INT   ,
-    "G" INT  NOT NULL,
+    "G" INT   ,
     "GS" INT   ,
     "MP" INT   ,
     "FG" INT   NOT NULL,
     "FGA" INT   NOT NULL,
-    "FG_percent" DECIMAL   NOT NULL,
+    "FG%" DECIMAL   NOT NULL,
     "3P" INT   ,
     "3PA" INT   ,
-    "3P_percent" DECIMAL ,
-    "2P" INT   NOT NULL,
-    "2PA" INT   NOT NULL,
-    "2P_percent" DECIMAL   NOT NULL,
-    "eFG_percent" DECIMAL   NOT NULL,
+    "3P%" DECIMAL   ,
+    "2P" INT   ,
+    "2PA" INT   ,
+    "2P%" DECIMAL   ,
+    "eFG%" DECIMAL   ,
     "FT" INT   NOT NULL,
     "FTA" INT   NOT NULL,
-    "FT_percent" DECIMAL   NOT NULL,
-    "ORB" INT   ,
-    "DRB" INT   ,
-    "TRB" INT   ,
+    "FT%" DECIMAL   NOT NULL,
+    "ORB" INT   NOT NULL,
+    "DRB" INT   NOT NULL,
+    "TRB" INT   NOT NULL,
     "AST" INT   NOT NULL,
-    "STL" INT   ,
-    "BLK" INT   ,
-    "TOV" INT   ,
+    "STL" INT   NOT NULL,
+    "BLK" INT   NOT NULL,
+    "TOV" INT   NOT NULL,
     "PF" INT   NOT NULL,
     "PTS" INT   NOT NULL
 );
 
-ALTER TABLE "Player_data" ADD CONSTRAINT "fk_Player_data_id" FOREIGN KEY("id")
-REFERENCES "Players" ("id");
+ALTER TABLE "Player_data" ADD CONSTRAINT "fk_Player_data_name" FOREIGN KEY("name")
+REFERENCES "Players" ("name");
 
 ALTER TABLE "Player_data" ADD CONSTRAINT "fk_Player_data_college" FOREIGN KEY("college")
 REFERENCES "Colleges" ("college");
